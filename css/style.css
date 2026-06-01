@@ -10,14 +10,18 @@
 h1 {
     font-family: "Inter";
     font-weight: 800;
-    font-size: 70px;
+    font-size: 80px;
     color: var(--orange);
+    margin: 0;
+    display: inline;
 }
 h2 {
     font-family: "Inter";
     font-weight: 300;
-    font-size: 50px;
+    font-size: 40px;
     color: var(--orange);
+    margin: 0;
+    display: inline;
 }
 
 * {
@@ -39,21 +43,35 @@ header {
     right: 30px;
     text-align: right;
     z-index: 1000;
+    display: flex;
+    align-items: center;
 }
 
 main {
     position: relative;
+    clip-path: inset(0);
 }
 
 img.sunicon {
-    height: 80px;
+    height: 160px;
     width: auto;
+    margin-top: 25px;
+    margin-left: 10px;
 }
 
 /* CLASSES */
 .leaflet-container {
     /* mit !important überschreibt es eigenen leaflet-style */
-    background-color: #a9d3df !important;
+    background-color: #CAE5F3 !important;
+}
+
+.leaflet-tile {
+    filter: hue-rotate(10deg) saturate(0.7) brightness(1.1) !important;
+}
+
+.header_text {
+    display: flex;
+    flex-direction: column;
 }
 
 /* IDS */
