@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cocktail API</title>
+    <title>sunneuf- und untergang</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- leaflet style -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- leaflet karte -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- berechnung: tag/nacht-grenze -->
+    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator@1.0.0/L.Terminator.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Vorlage für interaktive Medien II</h1>
-
-    </header>
     <main>
-        <h2>Main Content</h2>
-        <p>This is the main content of the page.</p>
-
+        <!-- karte -->
+        <div id="map"></div>
+        <!-- glow über karte -->
+        <canvas class="suncanvas"></canvas>
+        <header>
+            <h1>sunneuf- und untergang</h1>
+            <img class="sunicon" src="figma/sonne.svg" alt="Sonnen-Icon">
+            <h2>rund um d welt</h2>
+        </header>
     </main>
     <footer>
-        <p>This is the footer of the page.</p>
-
     </footer>
     <script src="js/script.js" type="module"></script>
 </body>
