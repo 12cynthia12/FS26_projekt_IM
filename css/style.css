@@ -4,6 +4,9 @@
 :root {
     /* COLOR */
     --orange: #F08A12;
+    --lightblue: #CAE5F3;
+    --darkblue: #2E3F57;
+    --white: #FFFFFF;
 }
 
 /* SCHRIFT */
@@ -62,17 +65,50 @@ img.sunicon {
 /* CLASSES */
 .leaflet-container {
     /* mit !important überschreibt es eigenen leaflet-style */
-    background-color: #CAE5F3 !important;
+    background-color: var(--lightblue) !important;
 }
 
 .leaflet-tile {
     filter: hue-rotate(10deg) saturate(0.7) brightness(1.1) !important;
 }
 
+.leaflet-div-icon {
+    background: none;
+    border: none;
+    pointer-events: auto;
+}
+
 .header_text {
     display: flex;
     flex-direction: column;
 }
+
+/* sichtbarer oranger punkt */
+.marker {
+    width: 14px;
+    height: 14px;
+    background-color: var(--white);
+    border: 5px solid var(--orange);
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 0 8px 0px var(--white);
+}
+
+
+/* unsichtbar, braucht leafler für positionierung */
+.marker-hover {
+    background: none !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker-hover:hover .marker {
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
 
 /* IDS */
 #map {
