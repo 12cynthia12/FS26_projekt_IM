@@ -45,4 +45,39 @@ cities.forEach(city => {
         iconAnchor: [7,7], // mitte des icons sitzt auf koordinaten
     })
     const marker = L.marker([city.lat, city.lng], {icon}).addTo(map);
+
+    // bei klick
+    marker.on('click', function(){
+        console.log('klickt', city.name);
+        fetchSunData(city);
+        document.getElementById('city-name').textContent = city.name;
+        document.getElementById('info-card').classList.remove('hidden-card');
+    })
 });
+
+// sonnenzeiten von api für stadt abrufen
+async function fetchSunData(city) {
+    // fügt api ein, in der api werden automatisch längen- und breitengrade der stadt eingegeben
+    // formatted=0 zeigt die zeiten als UTC 
+    const url = `https://api.sunrise-sunset.org/json?lat=${city.lat}&lng=${city.lng}&formatted=0`;
+    const response = await fetch(url);
+    const data = await response.json();
+    // zeit in daten suchen
+    const sunrise = formatTime(data.results.sunrise);
+    const sunset = formatTime(data.results.sunset);
+    // zeiten in card anzeigen
+    document.getElementById('sunrise').textContent = sunrise;
+    document.getElementById('sunset').textContent = sunset;
+}
+
+// UTC in einfache uhrzeit umwandeln ('2026-06-02T03:13:58+00:00' → '03:13')
+function formatTime(isoString) {
+    // macht aus langem string ein datum, replace('+00:00', 'Z') wandelt UTC zeit für alle browser lesbar um
+    const date = new Date(isoString.replace('+00:00', 'Z')); 
+    // holt nur stunden aus datum, padStart fügt null vorne an, wenn nur eine zahl
+    const h = String(date.getUTCHours()).padStart(2, '0'); 
+    // same aber für minuten
+    const m = String(date.getUTCMinutes()).padStart(2, '0');
+    // stunden und minuten mit doppelpunkt zusammensetzen
+    return `${h}:${m}`;
+}
