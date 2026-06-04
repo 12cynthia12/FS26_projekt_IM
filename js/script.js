@@ -44,7 +44,7 @@ cities.forEach(city => {
         html: '<div class="marker"></div>',
         iconSize: [14,14], // grösse des klickbereichs
         iconAnchor: [7,7], // mitte des icons sitzt auf koordinaten
-    })
+    });
     const marker = L.marker([city.lat, city.lng], {icon}).addTo(map);
 
     // bei klick
@@ -55,7 +55,7 @@ cities.forEach(city => {
         fetchSunData(city);
         document.getElementById('city-name').textContent = city.name;
         document.getElementById('info-card').classList.remove('hidden-card');
-    })
+    });
 });
 
 // sonnenzeiten von api für stadt abrufen
@@ -71,6 +71,20 @@ async function fetchSunData(city) {
     // zeiten in card anzeigen
     document.getElementById('sunrise').textContent = sunrise;
     document.getElementById('sunset').textContent = sunset;
+
+    // sonnenstand bei animation korrekt darstellen
+    const sunPosition = calcSunPosition(data.results.sunrise);
+    const lottie = document.getElementById('lottie'); 
+    // animation auf richtigen frame setzen (192 ist letzter)
+    // sunPosition (0-1) * 192 frames = genauer frame (mittag ist frame 0)
+    const adjustedProcess = (sunPosition - 0.5 + 1) % 1;
+    // frame ausrechnen und auf ganze zahl runden 
+    const frame = Math.round(adjustedProcess * 192);
+    lottie.load('animation/animation_sun.json');
+    lottie.addEventListener('ready', () => {
+        lottie.seek(frame); // zum berechneten frame springen
+        lottie.pause(); // animation soll da stehen
+    }, {once: true}); // eventlistener wird nach ausführung entfernt
 }
 
 // UTC in einfache uhrzeit umwandeln ('2026-06-02T03:13:58+00:00' → '03:13')
@@ -84,4 +98,19 @@ function formatTime(isoString) {
     const m = timePart.split(':')[1];
     // stunden und minuten mit doppelpunkt zusammensetzen
     return `${h}:${m}`;
+}
+
+// berechnung des sonnenstands (0 mitternacht / 0.5 mittag / 1 wieder mitternacht)
+function calcSunPosition(sunriseISO) {
+    // mithilfe der zeitzone
+    const offsetString = sunriseISO.slice(-6); //letzte sechs zeichen (also z.B: +12:00)
+    const sign = offsetString[0] == '+' ? 1 : -1; // vorzeichen für ost / west
+    // stunden und minuten
+    const offsetHours = parseInt(offsetString.slice(1, 3));
+    const offsetMinutes = parseInt(offsetString.slice(4, 6));
+    const totalOffsetMinutes = sign * (offsetHours * 60 + offsetMinutes);
+    const nowUTC = new Date(); // aktuelle UTC holen
+    // UTC-minuten + offset = lokale zeit 
+    const localMinutes = (nowUTC.getUTCHours() * 60 + nowUTC.getUTCMinutes() + totalOffsetMinutes + 1440) % 1440;
+    return localMinutes / 1440;
 }
