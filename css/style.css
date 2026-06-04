@@ -90,7 +90,7 @@ img.sunicon {
     filter: blur(30px);
 }
 
-.header_text {
+.header-text {
     display: flex;
     flex-direction: column;
 }
@@ -205,5 +205,23 @@ img.sunicon {
     font-size: 20px;
     color: var(--darkblue);
     margin: -10px 0 0 0;
+}
+
+#city-time {
+    position: absolute;
+    bottom: var(--gap-m);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    gap: var(--gap-m);
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: var(--gap-s) var(--gap-m);
+    border-radius: var(--gap-l);
+    color: var(--darkblue);
+    font-family: 'Inter';
+    font-size: 20px;
 }
 

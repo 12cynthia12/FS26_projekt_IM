@@ -7,16 +7,12 @@ const map = L.map('map', {
     dragging: false, scrollWheelZoom: false, doubleClickZoom: false, 
 }).setView([53, 0],2);
 
-
 // karte unsichtbar laden, macht dass karte nicht unendlihc ist, sondern nur einmal gezeigt wird
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     noWrap: true,
     bounds: [[-90,-180], [90,180]],
     opacity: 100,
 }).addTo(map);
-
-
-
 
 // golden hour (ca 1h um terminator)
 const goldenHourMorning = L.terminator({
@@ -50,7 +46,7 @@ const cities = [
     {name: "züri", lat: 47.37, timezone:"Europe/Zurich", lng:  8.54, cardX: '65%', cardY: '50%'},
     {name: "reykjavík", lat: 64.13, timezone:"Atlantic/Reykjavik", lng: -21.89, cardX: '32%', cardY: '42%'},
     { name: "vancouver", lat: 49.28, timezone:"America/Vancouver", lng: -123.12, cardX: '15%', cardY: '50%'},
-    { name: "nairobi", lat: -1.29, timezone:"Africa/Nairobi", lng:  36.82, cardX: '42%', cardY: '75%'},
+    { name: "nairobi", lat: -1.29, timezone:"Africa/Nairobi", lng:  36.82, cardX: '70%', cardY: '70%'},
     { name: "brasília", lat: -15.78, timezone:"America/Sao_Paulo", lng: -47.93, cardX: '30%', cardY: '75%'},
     { name: "kalkutta", lat: 22.57, timezone:"Asia/Kolkata", lng:  88.36, cardX: '78%', cardY: '50%'},
     { name: "auckland", lat: -36.86, timezone:"Pacific/Auckland", lng: 174.76, cardX: '83%', cardY: '55%'},
@@ -75,11 +71,13 @@ cities.forEach(city => {
         fetchSunData(city);
         document.getElementById('city-name').textContent = city.name;
         document.getElementById('info-card').classList.remove('hidden-card');
+        showCityTime(city); // stadtzeit aktivieren
     });
 });
 
 // klick auf karte schliesst infocard
 map.on('click', function() {
+    activeCity = null;
     document.getElementById('info-card').classList.add('hidden-card');
 })
 
@@ -139,3 +137,34 @@ function calcSunPosition(sunriseISO) {
     const localMinutes = (nowUTC.getUTCHours() * 60 + nowUTC.getUTCMinutes() + totalOffsetMinutes + 1440) % 1440;
     return localMinutes / 1440;
 }
+
+let activeCity = null;
+
+startUTCClock();
+function startUTCClock() {
+    function update() {
+        // aktuelle zeit in stunden, minuten und sekonden holen
+        const now = new Date();
+        if (activeCity) { // lokale zeit anzeigen (von der aktiven stadt)
+            const localTime = now.toLocaleTimeString('de-CH', { // in schweizer format ausgeben
+                timeZone: activeCity.timezone,
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+            });
+            document.getElementById('city-time-name').textContent = activeCity.name; // stadtname als label schreiben
+            document.getElementById('city-time-time').textContent = localTime;
+        } else { // uct zeigen
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            const s = String(now.getUTCSeconds()).padStart(2, '0');
+            document.getElementById('city-time-name').textContent = 'UTC'; // UCT als label schreiben
+            document.getElementById('city-time-time').textContent = `${h}:${m}:${s}`;
+        }
+    }
+    update(); // ausführen
+    setInterval(update, 1000); // jede sekunde wiederholen
+}
+
+function showCityTime(city) {
+    activeCity = city; // speichert aktive stadt
+}
+
