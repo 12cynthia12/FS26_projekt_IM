@@ -16,10 +16,30 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
+
+
+// golden hour (ca 1h um terminator)
+const goldenHourMorning = L.terminator({
+    fillColor: '#F08A12',
+    fillOpacity: 0.2,
+    color: 'transparent',
+    interactive: false,
+    time: new Date(Date.now() - 80 * 60 * 1000)
+}).addTo(map);
+
+// golden hour (ca 1h um terminator)
+const goldenHourEvening = L.terminator({
+    fillColor: '#F08A12',
+    fillOpacity: 0.2,
+    color: 'transparent',
+    interactive: false,
+    time: new Date(Date.now() + 80 * 60 * 1000)
+}).addTo(map);
+
 // tag/nacht-grenze hinzufügen
 L.terminator({
     fillColor: '#2E3F57',
-    fillOpacity: 0.77,
+    fillOpacity: 0.8,
     interactive: false,
 }).addTo(map);
 

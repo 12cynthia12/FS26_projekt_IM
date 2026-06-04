@@ -86,6 +86,10 @@ img.sunicon {
     pointer-events: auto;
 }
 
+.leaflet-overlay-pane {
+    filter: blur(30px);
+}
+
 .header_text {
     display: flex;
     flex-direction: column;
