@@ -11,6 +11,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- berechnung: tag/nacht-grenze -->
     <script src="https://unpkg.com/@joergdietrich/leaflet.terminator@1.0.0/L.Terminator.js"></script>
+    <!-- lottie-player -->
+     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
     <main>
@@ -24,9 +26,20 @@
             <img class="sunicon" src="figma/sonne.svg" alt="Sonnen-Icon">
         </header>
         <div id="info-card" class="hidden-card">
+            <div class="card-animation">
+                <lottie-player id="lottie" src="animation/animation_sun.json" autoplay loop></lottie-player>
+                <div class="card-times">
+                    <div class="time-sunrise">
+                        <img class="time-icon" src="figma/rise.svg">
+                        <p id="sunrise"></p>
+                    </div>
+                    <div class="time-sunset">
+                        <img class="time-icon" src="figma/set.svg">
+                        <p id="sunset"></p>
+                    </div>
+                </div>
+            </div>
             <p id="city-name"></p>
-            <p id="sunrise"></p>
-            <p id="sunset"></p>
         </div>
     </main>
     <footer>

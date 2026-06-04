@@ -7,6 +7,14 @@
     --lightblue: #CAE5F3;
     --darkblue: #2E3F57;
     --white: #FFFFFF;
+
+    --glass: rgba(255, 255, 255, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.3);
+
+    /* ABSTÄNDE */
+    --gap-s: 10px;
+    --gap-m: 20px;
+    --gap-l: 30px;
 }
 
 /* SCHRIFT */
@@ -42,8 +50,8 @@ body {
 
 header {
     position: absolute;
-    top: 20px;
-    right: 30px;
+    top: var(--gap-m);
+    right: var(--gap-l);
     text-align: right;
     z-index: 1000;
     display: flex;
@@ -59,7 +67,7 @@ img.sunicon {
     height: 160px;
     width: auto;
     margin-top: 25px;
-    margin-left: 10px;
+    margin-left: var(--gap-s);
 }
 
 /* CLASSES */
@@ -113,6 +121,42 @@ img.sunicon {
     display: none;
 }
 
+.card-animation {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.card-times {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.time-sunrise {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-s);
+}
+
+.time-sunset {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-s);    
+    flex-direction: row-reverse;
+}
+
+.time-icon {
+    width: 40px;
+    height: 40px;
+}
+
 
 /* IDS */
 #map {
@@ -122,9 +166,40 @@ img.sunicon {
 
 #info-card {
     position: absolute;
-    z-index: 1000;
-    background: var(--white);
-    padding: 20px;
+    /* damit card immer zuvoderst angezeigt wird */
+    z-index: 1000; 
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);    
+    width: 340px;
+    padding: var(--gap-m);
+    border-radius: var(--gap-m);
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    color: var(--darkblue);
+    text-align: center;
 }
+
+#lottie {
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin: -20px auto;
+}
+
+#city-name {
+    font-family: "Inter";
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--darkblue);
+    margin: 0 0 20px 0;
+}
+
+#sunrise, #sunset {
+    font-family: "Inter";
+    font-size: 20px;
+    color: var(--darkblue);
+    margin: -10px 0 0 0;
+}
+

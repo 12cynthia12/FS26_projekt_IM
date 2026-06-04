@@ -25,14 +25,15 @@ L.terminator({
 
 // städte mit koordinaten
 // lat = latitude = breitengrad / lng = longitude = längengrad
+// cardX oder Y für anzeige der card an einem bestimmten punkt
 const cities = [
-    {name: "züri", lat: 47.37,  lng:  8.54},
-    {name: "reykjavík", lat: 64.13,  lng: -21.89 },
-    { name: "toronto",   lat: 43.70,  lng: -79.42 },
-    { name: "nairobi",   lat: -1.29,  lng:  36.82 },
-    { name: "são paulo", lat: -23.55, lng: -46.63 },
-    { name: "mumbai",    lat: 19.07,  lng:  72.87 },
-    { name: "sydney",    lat: -33.86, lng: 151.20 },
+    {name: "züri", lat: 47.37,  lng:  8.54, cardX: '25%', cardY: '45%'},
+    {name: "reykjavík", lat: 64.13,  lng: -21.89, cardX: '24%', cardY: '40%'},
+    { name: "vancouver", lat: 49.28,  lng: -123.12, cardX: '17%', cardY: '50%'},
+    { name: "nairobi", lat: -1.29,  lng:  36.82, cardX: '58%', cardY: '83%'},
+    { name: "brasília", lat: -15.78, lng: -47.93, cardX: '20%', cardY: '70%'},
+    { name: "kalkutta", lat: 22.57,  lng:  88.36, cardX: '80%', cardY: '60%'},
+    { name: "auckland", lat: -36.86, lng: 174.76, cardX: '83%', cardY: '60%'},
 ];
 
 // punkt für jede stadt setzen
@@ -48,7 +49,9 @@ cities.forEach(city => {
 
     // bei klick
     marker.on('click', function(){
-        console.log('klickt', city.name);
+        const card = document.getElementById('info-card');
+        card.style.left = city.cardX;
+        card.style.top = city.cardY;
         fetchSunData(city);
         document.getElementById('city-name').textContent = city.name;
         document.getElementById('info-card').classList.remove('hidden-card');
