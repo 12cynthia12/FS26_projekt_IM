@@ -5,7 +5,7 @@ console.log("blub");
 const map = L.map('map', {
     minZoom: 2, maxZoom: 2, zoomControl: false, 
     dragging: false, scrollWheelZoom: false, doubleClickZoom: false, 
-}).setView([50, 0],2);
+}).setView([53, 0],2);
 
 
 // karte unsichtbar laden, macht dass karte nicht unendlihc ist, sondern nur einmal gezeigt wird
@@ -27,13 +27,13 @@ L.terminator({
 // lat = latitude = breitengrad / lng = longitude = längengrad
 // cardX oder Y für anzeige der card an einem bestimmten punkt
 const cities = [
-    {name: "züri", lat: 47.37, timezone:"Europe/Zurich", lng:  8.54, cardX: '25%', cardY: '45%'},
-    {name: "reykjavík", lat: 64.13, timezone:"Atlantic/Reykjavik", lng: -21.89, cardX: '24%', cardY: '40%'},
-    { name: "vancouver", lat: 49.28, timezone:"America/Vancouver", lng: -123.12, cardX: '17%', cardY: '50%'},
-    { name: "nairobi", lat: -1.29, timezone:"Africa/Nairobi", lng:  36.82, cardX: '58%', cardY: '83%'},
-    { name: "brasília", lat: -15.78, timezone:"America/Sao_Paulo", lng: -47.93, cardX: '20%', cardY: '70%'},
-    { name: "kalkutta", lat: 22.57, timezone:"Asia/Kolkata", lng:  88.36, cardX: '80%', cardY: '60%'},
-    { name: "auckland", lat: -36.86, timezone:"Pacific/Auckland", lng: 174.76, cardX: '83%', cardY: '60%'},
+    {name: "züri", lat: 47.37, timezone:"Europe/Zurich", lng:  8.54, cardX: '65%', cardY: '50%'},
+    {name: "reykjavík", lat: 64.13, timezone:"Atlantic/Reykjavik", lng: -21.89, cardX: '32%', cardY: '42%'},
+    { name: "vancouver", lat: 49.28, timezone:"America/Vancouver", lng: -123.12, cardX: '15%', cardY: '50%'},
+    { name: "nairobi", lat: -1.29, timezone:"Africa/Nairobi", lng:  36.82, cardX: '42%', cardY: '75%'},
+    { name: "brasília", lat: -15.78, timezone:"America/Sao_Paulo", lng: -47.93, cardX: '30%', cardY: '75%'},
+    { name: "kalkutta", lat: 22.57, timezone:"Asia/Kolkata", lng:  88.36, cardX: '78%', cardY: '50%'},
+    { name: "auckland", lat: -36.86, timezone:"Pacific/Auckland", lng: 174.76, cardX: '83%', cardY: '55%'},
 ];
 
 // punkt für jede stadt setzen
@@ -57,6 +57,11 @@ cities.forEach(city => {
         document.getElementById('info-card').classList.remove('hidden-card');
     });
 });
+
+// klick auf karte schliesst infocard
+map.on('click', function() {
+    document.getElementById('info-card').classList.add('hidden-card');
+})
 
 // sonnenzeiten von api für stadt abrufen
 async function fetchSunData(city) {
