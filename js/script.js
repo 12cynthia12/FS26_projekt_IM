@@ -91,6 +91,9 @@ async function fetchSunData(city) {
     // zeit in daten suchen
     const sunrise = formatTime(data.results.sunrise);
     const sunset = formatTime(data.results.sunset);
+
+    const phase = getDayPhase(data.results.sunrise, data.results.sunset);
+    applyPhaseStyle(phase); // ändert farbe der info-card
     // zeiten in card anzeigen
     document.getElementById('sunrise').textContent = sunrise;
     document.getElementById('sunset').textContent = sunset;
@@ -124,7 +127,7 @@ function formatTime(isoString) {
 }
 
 // berechnung des sonnenstands (0 mitternacht / 0.5 mittag / 1 wieder mitternacht)
-function calcSunPosition(sunriseISO) {
+function calcSunPosition(sunriseISO) { // ISO = standard format für daten
     // mithilfe der zeitzone
     const offsetString = sunriseISO.slice(-6); //letzte sechs zeichen (also z.B: +12:00)
     const sign = offsetString[0] == '+' ? 1 : -1; // vorzeichen für ost / west
@@ -168,3 +171,40 @@ function showCityTime(city) {
     activeCity = city; // speichert aktive stadt
 }
 
+// tageszeiten für card-farben berechnen
+function getDayPhase(sunriseISO, sunsetISO) {
+    const now = Date.now();
+    const sunrise = new Date(sunriseISO).getTime();
+    const sunset = new Date(sunsetISO).getTime();
+    const oneHour = 60 * 60 * 1000; // eine stunde in millisekunden
+
+    if (now < sunrise || now > sunset) {
+        return 'night';
+    } else if (now < sunrise + oneHour || now > sunset - oneHour) {
+        return 'golden';
+    } else {
+        return 'day';
+    }
+}
+
+function applyPhaseStyle(phase) {
+    const card = document.getElementById('info-card');
+    const timeBox = document.getElementById('city-time');
+
+    if (phase == 'night') {
+        card.style.background = 'rgba(84, 102, 127, 0.3)';
+        card.style.border = '1px solid rgba(84, 102, 127, 0.5)';
+        timeBox.style.background = 'rgba(84, 102, 127, 0.3)';
+        timeBox.style.border = '1px solid rgba(84, 102, 127, 0.5)';
+    } else if (phase == 'golden') {
+        card.style.background = 'rgba(245, 208, 149, 0.4)';
+        card.style.border = '1px solid rgba(245, 208, 149, 0.7)';
+        timeBox.style.background = 'rgba(245, 208, 149, 0.4)';
+        timeBox.style.border = '1px solid rgba(245, 208, 149, 0.7)';
+    } else {
+        card.style.background = 'rgba(255, 255, 255, 0.2)';
+        card.style.border = '1px solid rgba(255, 255, 255, 0.5)';
+        timeBox.style.background = 'rgba(255, 255, 255, 0.2)';
+        timeBox.style.border ='1px solid rgba(255, 255, 255, 0.5)';
+    }
+}
