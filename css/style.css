@@ -225,3 +225,36 @@ img.sunicon {
     font-size: 20px;
 }
 
+
+
+@media (max-width: 768px) {
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+    h1 {
+        font-size: 32px;
+        line-height: 1;
+    }
+    h2 {
+        font-size: 18px;
+        margin-top: 3px;
+    }
+    img.sunicon {
+        height: 120px;
+    }
+    header {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+        padding: var(--gap-l) var(--gap-m);
+        width: 100%;
+        justify-content: center;
+    }
+    #city-time {
+        position: fixed;
+    }
+}
+
+

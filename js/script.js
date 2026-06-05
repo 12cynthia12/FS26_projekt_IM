@@ -1,11 +1,28 @@
 console.log("blub");
 
-// karte erstellen, keinen zoom erlauben, keine interaktionen erlauben
-// L. ruft leaflet auf
-const map = L.map('map', {
+// mobile: horizontales scrollen
+const isMobile = window.innerWidth < 768;
+const center = isMobile ? [50, 0] : [53, 0];
+
+// karte erstellen, desktop: keinen zoom/scroll erlauben, 
+const map = L.map('map', { // L. ruft leaflet auf
     minZoom: 2, maxZoom: 2, zoomControl: false, 
-    dragging: false, scrollWheelZoom: false, doubleClickZoom: false, 
-}).setView([53, 0],2);
+    dragging: isMobile, touchZoom: false,
+    scrollWheelZoom: false, doubleClickZoom: false, 
+    maxBounds: [[-90, -180], [90, 180]], // karte endet an grenze
+    maxBoundsViscosity: 1.0 // harte grenze, kein scrollen über rand
+}).setView(center, 2);
+
+if (isMobile) {
+    map.on('drag', function() {
+        const center = map.getCenter();
+        // nur horizontales scrollen erlauben
+        map.setView([50, center.lng], map.getZoom(), {animate: false});
+        // info card beim scrollen schliessen
+        document.getElementById('info-card').classList.add('hidden-card');
+        activeCity = null; // setzt aktuelle stadt zurück
+    });
+};
 
 // karte unsichtbar laden, macht dass karte nicht unendlihc ist, sondern nur einmal gezeigt wird
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -66,8 +83,10 @@ cities.forEach(city => {
     // bei klick
     marker.on('click', function(){
         const card = document.getElementById('info-card');
-        card.style.left = city.cardX;
-        card.style.top = city.cardY;
+        if (!isMobile) {
+            card.style.left = city.cardX;
+            card.style.top = city.cardY;
+        }
         fetchSunData(city);
         document.getElementById('city-name').textContent = city.name;
         document.getElementById('info-card').classList.remove('hidden-card');
