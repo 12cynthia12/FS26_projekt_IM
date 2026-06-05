@@ -1,8 +1,8 @@
-console.log("blub");
+console.log("willkommen bei 'sunneuf- und untergang / rund um d welt' und viel spass!");
 
 // mobile: horizontales scrollen
 const isMobile = window.innerWidth < 768;
-const center = isMobile ? [50, 0] : [53, 0];
+const center = isMobile ? [30, 0] : [53, 0];
 
 // karte erstellen, desktop: keinen zoom/scroll erlauben, 
 const map = L.map('map', { // L. ruft leaflet auf
@@ -17,7 +17,7 @@ if (isMobile) {
     map.on('drag', function() {
         const center = map.getCenter();
         // nur horizontales scrollen erlauben
-        map.setView([50, center.lng], map.getZoom(), {animate: false});
+        map.setView([30, center.lng], map.getZoom(), {animate: false});
         // info card beim scrollen schliessen
         document.getElementById('info-card').classList.add('hidden-card');
         activeCity = null; // setzt aktuelle stadt zurück

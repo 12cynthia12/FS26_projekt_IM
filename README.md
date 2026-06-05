@@ -19,10 +19,11 @@ FEATURES:
     - lokale Sonnenauf- und Untergangszeit
 - UTC-Uhr, welche bei Klick auf eine Stadt zur lokalen Zeit wechselt
 - Info-Card und Time-Box wechselt Farbe je nach Tageszeit (Tag/Golden Hour/Nacht)
+- mobile Version für iPhone 14 Pro Max
 
 VERWENDETE TOOLS:
 
-- html, css, javascrips, json
+- html, css, javascript, json
 - Sonnenzeiten-API (https://sunrise-sunset.org/api)
 - Leaflet (https://leafletjs.com/)
   - Karte
@@ -34,7 +35,7 @@ https://api.sunrise-sunset.org/json?lat={lat}&lng={lng}&formatted=0&tzid={timezo
 
 HERAUSFORDERUNGEN UND LEARNINGS:
 
-- die eigene Figma-SVG-WEltkarte konnte nicht exakt über Leaflet-Karte gelegt werden
+- die eigene Figma-SVG-WEltkarte konnte nicht exakt über Leaflet-Karte gelegt werden, ebenso konnte ich die leaflet-karte nicht selbst einfärben, nur die farbtöne mithilfe von filtern etwas an mein design angleichen. ebenso konnte ich die Karte nicht frei platzieren, deshalb ragt sie bis in den Header hinein, welchen ich zwar mit einem Background hätte abtrennen können, aber die aktuelle Lösung finde ich ansprechender.
 - der Terminator von Leaflet lässt sich nicht auf die Kartengrenze beschränken und wiederholt sich quasi unendlich bis an den Viewport-Rand
 - die zwei Golden-Hour-Flächen überlappen sich (was man durch den blur fast nicht mehr sehen kann) und sie können auch nicht ganz genau berechnet werden. Aber da die Tag/Nacht-Grenze genau berechnet ist, ergänzt die golden Hour das Bild visuell extrem gut und ist fast exakt.
 - auf der Karte wird rechts ein Teil von Russland abgeschnitten und wird links auf der Karte an Amerika angefügt. Die Geografie stimmt so natürlich, rein visuell wäre es aber schöner gewesen, hätte ich den Ausschnitt verschieben können, damit Russland an einem Stück rechts in der Karte zu sehen ist.
